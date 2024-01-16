@@ -1,3 +1,16 @@
+// Copyright 2021 - 2023, Ricardo Quesada
+// SPDX-License-Identifier: Apache 2.0 or LGPL-2.1-or-later
+
+/*
+ * This example shows how to use the Controller API.
+ *
+ * Supported on boards with NINA W10x. In particular these boards:
+ *  - Arduino MKR WiFi 1010,
+ *  - UNO WiFi Rev.2,
+ *  - Nano RP2040 Connect,
+ *  - Nano 33 IoT,
+ *  - Arduino Arduino MKR Vidor 4000
+ */
 #include <Bluepad32.h>
 #include <Servo.h>
 #include <pico/multicore.h>
