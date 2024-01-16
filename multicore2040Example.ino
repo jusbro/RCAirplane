@@ -45,6 +45,7 @@ void setup() {
 
 void loop() {
   // This loops is what Core0 will run repeatedly. It does so natively:
+  //As far as I understand with Arduino, this must be called "loop"
   while(true){
     //You must use while(true) in both loops for both cores to work 
     Serial.println("Core0 says Hello");
@@ -56,6 +57,8 @@ void loop() {
 }
 
 void core1_loop(){
+  //This loop is what Core1 will run.
+  //You may call this loop anything you like, as long as you specify it correctly in setup()
   while(true){
     //You must use a while(true) in both loops for both cores to work
     //Serial.println("Core1 also says Hello");
