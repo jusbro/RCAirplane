@@ -19,8 +19,10 @@
 #define GRN_LED 10
 #define LED_PIN 13
 #define SERVO_PIN A3
+#define MOTOR_SERVO_PIN 9
 ControllerPtr myControllers[BP32_MAX_CONTROLLERS];
 Servo myservo;
+Servo motorServo;
 
 // Arduino setup function. Runs in CPU 1
 void setup() {
@@ -30,6 +32,8 @@ void setup() {
   pinMode(SERVO_PIN, OUTPUT);
   pinMode(GRN_LED, OUTPUT);
   myservo.attach(SERVO_PIN);
+  motorServo.attach(MOTOR_SERVO_PIN);
+  //motorServo.writeMicroseconds(1500);
   sleep_ms(5000);
   multicore_launch_core1(loop1);
   sleep_ms(500);
@@ -126,24 +130,11 @@ void processGamepad(ControllerPtr gamepad) {
   //  a(), b(), x(), y(), l1(), etc...
 
   if (gamepad->a()) {
-    static int colorIdx = 0;
-    // Some gamepads like DS4 and DualSense support changing the color LED.
-    // It is possible to change it by calling:
-    switch (colorIdx % 3) {
-      case 0:
-        // Red
-        gamepad->setColorLED(255, 0, 0);
-        break;
-      case 1:
-        // Green
-        gamepad->setColorLED(0, 255, 0);
-        break;
-      case 2:
-        // Blue
-        gamepad->setColorLED(0, 0, 255);
-        break;
-    }
-    colorIdx++;
+    Serial.println("Setting up Motor");
+    motorServo.write(10);
+    delay(1500);
+    motorServo.write(55);
+    delay(1500);
   }
 
   if (gamepad->b()) {
@@ -199,6 +190,8 @@ void processGamepad(ControllerPtr gamepad) {
   int servoCount = gamepad->axisX();
   int servoPos = map(servoCount, -511, 511, 0, 180);
   myservo.write(servoPos);
+  int motorServoPos = map(count, 0, 1023, 60, 100);
+  motorServo.write(motorServoPos);
   int brightness = map(count, 0, 1023, 0, 255);
   analogWrite(LED_PIN, brightness);
 
